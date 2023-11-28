@@ -2,14 +2,12 @@
 
 ## Prérequis 
 
-- NodeJS >= 20.1
+- docker
 
 
 ## Lancement
 
-
 ```bash
-cd backend
-npm install
-npm start
+cd docker
+docker compose -f docker/docker-compose-dev.yml up
 ```

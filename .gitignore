@@ -172,3 +172,5 @@ compile_commands.json
 
 #package
 package-lock.json
+
+dist/

@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+  api:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile-dev
+    volumes:
+      - ../src:/app/src
+    ports:
+      - "3000:3000"
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: exploitation
+      POSTGRES_USER: exploitation_user
+      POSTGRES_PASSWORD: randompassword
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
