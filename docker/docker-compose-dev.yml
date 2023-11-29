@@ -5,10 +5,13 @@ services:
     build:
       context: ../
       dockerfile: ./docker/Dockerfile-dev
+    depends_on:
+      - db
     volumes:
       - ../src:/app/src
     ports:
       - "3000:3000"
+      - "5555:5555"
   db:
     image: postgres
     restart: always
@@ -22,5 +25,7 @@ services:
   adminer:
     image: adminer
     restart: always
+    depends_on:
+      - api
     ports:
       - "8080:8080"
