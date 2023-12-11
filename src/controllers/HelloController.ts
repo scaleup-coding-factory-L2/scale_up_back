@@ -8,6 +8,13 @@ export const getHello = (req: Request, res: Response) => {
 
 const prisma = new PrismaClient();
 
+/**
+ * Adds an hourly rate to the database.
+ * 
+ * @param req - The request object.
+ * @param res - The response object.
+ * @returns A JSON response containing the newly created hourly rate.
+ */
 export const addHourlyRate = async (req: Request, res: Response) => {
     const { level_of_study, rate, costs } = req.body;
     try {
