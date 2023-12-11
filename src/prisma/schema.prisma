@@ -10,3 +10,44 @@ datasource db {
 model test {
   id Int @id @default(autoincrement())
 }
+model Hourlyrates {
+  id        Int     @id @default(autoincrement())
+  level_of_study String
+  rate      String 
+  costs     Float
+  id_budget Int
+  id_subject Int
+}
+
+model Dispensation {
+  id         Int      @id @default(autoincrement())
+  id_speaker Int
+  old_price  Float
+  new_price  Float
+  status     Boolean
+  date       DateTime
+}
+
+model PurchaseOrders {
+  id          Int     @id @default(autoincrement())
+  id_quotation Int
+  description String
+}
+
+model Quotation {
+  id         Int      @id @default(autoincrement())
+  id_speaker Int
+  price      Float
+  quotation_date DateTime
+  id_session Int
+  status     Boolean
+}
+
+model Costs {
+  id          Int     @id @default(autoincrement())
+  id_quotation Int
+  id_dispensation Int
+  global_costs Float
+  estimate    Float
+  id_budget   Int
+}
