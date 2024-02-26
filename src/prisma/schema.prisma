@@ -10,3 +10,43 @@ datasource db {
 model test {
   id Int @id @default(autoincrement())
 }
+
+model formation_demands {
+  id        Int    @default(autoincrement()) @id
+  id_teaching     teaching   @relation(fields: [teachingId], references: [id])
+  teachingId Int
+  is_verified String
+  manager_id  String
+  teacher_id    contributor_enterprise   @relation(fields: [contributorId], references: [id])
+  contributorId Int
+}
+
+model teaching {
+  id        Int    @default(autoincrement()) @id
+  id_place     teaching_places   @relation(fields: [teachingPlaceId], references: [id])
+  teachingPlaceId Int
+  category String
+}
+
+model teaching_places {
+  id        Int    @default(autoincrement()) @id
+  place     String @unique
+}
+
+model module_subject {
+  id        Int    @default(autoincrement()) @id
+  place     String @unique
+}
+
+model subject_module_teaching {
+  id_module_subject       module_subject   @relation(fields: [moduleId], references: [id])
+  moduleId Int
+  id_teaching     teaching   @relation(fields: [teachingId], references: [id])
+  teachingId Int
+}
+
+model contributor_enterprise {
+  id      Int    @default(autoincrement()) @id
+  name_enterprise_contributor     Int 
+}
+
