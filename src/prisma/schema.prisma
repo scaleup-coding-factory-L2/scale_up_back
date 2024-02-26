@@ -9,4 +9,5 @@ datasource db {
 
 model test {
   id Int @id @default(autoincrement())
+  test String
 }
