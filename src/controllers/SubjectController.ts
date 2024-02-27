@@ -1,4 +1,5 @@
-/*model Subject {
+/*
+model Subject {
   id Int @id @default(autoincrement())
   name String
   level String
