@@ -8,15 +8,20 @@ model Subject {
   needs Need[]
   hourlyRates HourlyRate[]
 }*/ 
-const { PrismaClient } = require('@prisma/client');
+import {PrismaClient } from '@prisma/client';
+import { Request, Response } from 'express'
+
 const prisma = new PrismaClient();
 
-const getAllSubject = async (req, res) => {
+export const getAllSubject = async (req: Request, res: Response) => {
   const subjects = await prisma.subject.findMany();
   res.json(subjects);
 };
+export const getTestSubject = (req: Request, res: Response) => {
+  res.status(200).json({ message: 'Hello subject!' })
+}
 
-const createSubject = async (req, res) => {
+export const createSubject = async (req: Request, res: Response) => {
   const { name, level ,category} = req.body;
   const newSubject = await prisma.subject.create({
     data: {
@@ -28,7 +33,7 @@ const createSubject = async (req, res) => {
   res.json(newSubject);
 };
 
-const updateSubject = async (req, res) => {
+export const updateSubject = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name, level, category } = req.body;
   const updatedSubject = await prisma.subject.update({
@@ -44,7 +49,7 @@ const updateSubject = async (req, res) => {
   res.json(updatedSubject);
 };
 
-const deleteSubject = async (req, res) => {
+export const deleteSubject = async (req: Request, res: Response) => {
   const { id } = req.params;
   await prisma.subject.delete({
     where: {
@@ -54,10 +59,5 @@ const deleteSubject = async (req, res) => {
   res.json({ message: 'Subject deleted successfully' });
 };
 
-module.exports = {
-    getAllSubject,
-    createSubject,
-    updateSubject,
-    deleteSubject,
-};
+
 

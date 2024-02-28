@@ -1,10 +1,14 @@
-const express = require('express');
-const router = express.Router();
-const SubjectController = require('../controllers/SubjectController');
+import { Router } from 'express'
 
-router.get('/subject', SubjectController.getAllSubject);
-router.post('/subject', SubjectController.createSubject);
-router.put('/subject/:id', SubjectController.updateSubject);
-router.delete('/subject/:id', SubjectController.deleteSubject);
+import { getAllSubject, getTestSubject, createSubject, deleteSubject, updateSubject } from '../controllers/SubjectController'
 
-module.exports = router;
+const router = Router()
+
+router.get('/subject', getAllSubject);
+router.post('/subject', createSubject);
+router.put('/subject/:id', updateSubject);
+router.delete('/subject/:id', deleteSubject);
+router.get('/subject/test', getTestSubject)
+
+export default router
+
