@@ -1,63 +1,28 @@
-import { prisma } from '../index';
+/*
+model Subject {
+  id Int @id @default(autoincrement())
+  name String
+  level String
+  category String
+  syllabus Syllabus[]
+  needs Need[]
+  hourlyRates HourlyRate[]
+}*/ 
+import {PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express'
 
-export const getAllSubjects = async (req: Request, res: Response) => {
+const prisma = new PrismaClient();
+
+export const getAllSubject = async (req: Request, res: Response) => {
   const subjects = await prisma.subject.findMany();
   res.status(200).json(subjects);
 };
-
-export const getSubjectsByCategoryId = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  try {
-    const subjects = await prisma.subject.findMany({
-      where: {
-        categoryId: parseInt(id)
-      }
-    });
-
-    res.status(200).json(subjects);
-  } catch (error) {
-    res.status(500).json({ error: 'Erreur de serveur interne. Veuillez réessayer plus tard.' });
-  }
-};
-
-export const getSubjectsById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-
-  try {
-    const subjects = await prisma.subject.findMany({
-      where: {
-        id: parseInt(id)
-      }
-    });
-
-    res.status(200).json(subjects);
-  } catch (error) {
-    res.status(500).json({ error: 'Erreur de serveur interne. Veuillez réessayer plus tard.' });
-  }
-};
+export const getTestSubject = (req: Request, res: Response) => {
+  res.status(200).json({ message: 'Hello subject!' })
+}
 
 export const createSubject = async (req: Request, res: Response) => {
-  const { name, level ,categoryId} = req.body;
-
-  const existingCategory = await prisma.category.findUnique({
-    where: {
-      id: parseInt(categoryId),
-    },
-  });
-  if (!existingCategory) {
-    return res.status(404).json({ error: `La category que vous voulez utilisé pour créer la matière/module n'existe pas.` });
-  }
-  const existingSubjectName = await prisma.subject.findFirst({
-    where: {
-      name: name,
-    },
-  });
-  if (existingSubjectName) {
-    return res.status(404).json({ error: `Le nom de la matière/module à créer existe déjà` });
-  }
-
+  const { name, level ,category} = req.body;
   const newSubject = await prisma.subject.create({
     data: {
       name,
@@ -107,11 +72,8 @@ export const updateSubject = async (req: Request, res: Response) => {
 };
 
 export const deleteSubject = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-
-
-  const existingSubject = await prisma.subject.findUnique({
+  const { id } = req.params;
+  await prisma.subject.delete({
     where: {
       id: parseInt(id),
     },
@@ -131,7 +93,6 @@ export const deleteSubject = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Une erreur est survenue lors de la suppression du module.' });
   }
 };
-
 
 
 
