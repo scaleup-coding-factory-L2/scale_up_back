@@ -1,60 +1,14 @@
-import { Router } from "express";
-import { body, param } from "express-validator";
+import { Router } from 'express'
 
-import {
-  createCategory,
-  deleteCategory,
-  getAllCategories,
-  getCategoryById,
-  updateCategory,
-} from "../controllers/CategoryController";
-import { handleValidationErrors } from "../middlewares/handleValidator";
+import { getAllCategory, getTestCategory, createCategory, deleteCategory, updateCategory } from '../controllers/CategoryController'
 
 const router = Router();
 
-router.get("/", getAllCategories);
+router.get('/category', getAllCategory);
+router.post('/category', createCategory);
+router.put('/category/:id', updateCategory);
+router.delete('/category/:id', deleteCategory);
+router.get('/category/test', getTestCategory)
 
-router.post(
-  "/",
-  [
-    body("name")
-      .isLength({ min: 5, max: 20 })
-      .withMessage(
-        "La longueur doit être entre 5 et 20 caractères pour le name de la catégorie"
-      )
-      .bail()
-      .trim()
-      .escape(),
-  ],
-  handleValidationErrors,
-  createCategory
-);
+export default router
 
-router.put(
-  "/:id",
-  [
-    param("id").isInt().withMessage(`L'id de la catégorie est invalide`),
-    body("name")
-      .isLength({ min: 5, max: 20 })
-      .withMessage(
-        "La longueur doit être entre 5 et 20 caractères pour le name de la catégorie"
-      ),
-  ],
-  handleValidationErrors,
-  updateCategory
-);
-
-router.delete(
-  "/:id",
-  [param("id").isInt().withMessage(`L'id de la catégorie est invalide`)],
-  handleValidationErrors,
-  deleteCategory
-);
-router.get(
-  "/:id",
-  [param("id").isInt().withMessage(`L'id de la catégorie est invalide`)],
-  handleValidationErrors,
-  getCategoryById
-);
-
-export default router;

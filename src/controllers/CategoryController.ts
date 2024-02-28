@@ -1,5 +1,12 @@
-import { Request, Response } from "express";
-import { prisma } from "../index";
+/*
+model Category {
+  id Int @id @default(autoincrement())
+  name String
+  subjects Subject[]
+}
+}*/ 
+import { Request, Response } from 'express'
+import { prisma } from 'index';
 
 export const getAllCategory = async (req: Request, res: Response) => {
   const categories = await prisma.category.findMany();
@@ -27,6 +34,9 @@ export const getCategoryById = async (req: Request, res: Response) => {
     });
   }
 };
+export const getTestCategory = (req: Request, res: Response) => {
+  res.status(200).json({ message: 'Hello category!' })
+}
 
 export const createCategory = async (req: Request, res: Response) => {
   const { name } = req.body;
@@ -35,32 +45,12 @@ export const createCategory = async (req: Request, res: Response) => {
       name,
     },
   });
-  res.status(200).json(newCategory);
+  res.json(newCategory);
 };
 
 export const updateCategory = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name } = req.body;
-
-  const existingCategory = await prisma.category.findUnique({
-    where: {
-      id: parseInt(id),
-    },
-  });
-  if (!existingCategory) {
-    return res
-      .status(404)
-      .json({ error: `La catégorie à mettre à jour n'existe pas.` });
-  }
-  const existingnewCategory = await prisma.category.findFirst({
-    where: {
-      name: name,
-    },
-  });
-  if (existingnewCategory) {
-    return res.status(404).json({ error: `La catégorie à créer existe déjà.` });
-  }
-
   const updatedCategory = await prisma.category.update({
     where: {
       id: parseInt(id),
@@ -74,19 +64,6 @@ export const updateCategory = async (req: Request, res: Response) => {
 
 export const deleteCategory = async (req: Request, res: Response) => {
   const { id } = req.params;
-
-  const existingCategory = await prisma.category.findUnique({
-    where: {
-      id: parseInt(id),
-    },
-  });
-
-  if (!existingCategory) {
-    return res
-      .status(404)
-      .json({ error: `La catégorie à supprimer n'existe pas.` });
-  }
-
   await prisma.category.delete({
     where: {
       id: parseInt(id),
