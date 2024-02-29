@@ -200,6 +200,7 @@ model HourlyRate {
   level String
   subjectId Int
   rate Float
+  realrate Float
   subject Subject @relation(fields: [subjectId], references: [id])
 }
 

@@ -1,53 +1,80 @@
-import { Request, Response } from 'express'
-const { PrismaClient } = require('@prisma/client')
-const prisma = new PrismaClient()
+import { Request, Response } from 'express';
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-export const addName = async (req: Request, res: Response) => {
+// Créer un taux horaire
+export const addHourlyRate = async (req: Request, res: Response) => {
     try {
-        const { name } = req.body;
-        const newUser = await prisma.test.create({
+        const { level, subjectId, rate, realrate } = req.body;
+        const newHourlyRate = await prisma.hourlyRate.create({
             data: {
-                name,
+                level,
+                subjectId,
+                rate,
+                realrate,
             },
         });
-        res.status(200).json({ message: 'User created successfully', user: newUser });
+        res.status(200).json({ message: 'Hourly rate created successfully', hourlyRate: newHourlyRate });
     } catch (error) {
-        console.error('Error creating user:', error);
-        res.status(500).json({ message: 'Failed to create user' });
+        console.error('Error creating hourly rate:', error);
+        res.status(500).json({ message: 'Failed to create hourly rate' });
     }
 };
 
-export const getNames = async (req: Request, res: Response) => {
+// Récupérer tous les taux horaires
+export const getAllHourlyRates = async (req: Request, res: Response) => {
     try {
-        const users = await prisma.test.findMany();
-        res.status(200).json({ message: 'Users fetched successfully', users });
+        const hourlyRates = await prisma.hourlyRate.findMany();
+        res.status(200).json({ message: 'Hourly rates fetched successfully', hourlyRates });
     } catch (error) {
-        console.error('Error fetching users:', error);
-        res.status(500).json({ message: 'Failed to fetch users' });
+        console.error('Error fetching hourly rates:', error);
+        res.status(500).json({ message: 'Failed to fetch hourly rates' });
     }
-}
+};
 
-export const deleteName = async (req: Request, res: Response) => {
+// Récupérer un taux horaire par son ID
+export const getHourlyRateById = async (req: Request, res: Response) => {
     try {
-        const { name } = req.params;
-        const user = await prisma.test.delete({
+        const id = parseInt(req.params.id);
+        const hourlyRate = await prisma.hourlyRate.findUnique({
             where: {
-                name,
+                id,
             },
         });
-        res.status(200).json({ message: 'User deleted successfully', user });
+        if (hourlyRate) {
+            res.status(200).json({ message: 'Hourly rate fetched successfully', hourlyRate });
+        } else {
+            res.status(404).json({ message: 'Hourly rate not found' });
+        }
     } catch (error) {
-        console.error('Error deleting user:', error);
-        res.status(500).json({ message: 'Failed to delete user' });
+        console.error('Error fetching hourly rate:', error);
+        res.status(500).json({ message: 'Failed to fetch hourly rate' });
     }
-}
+};
 
-export const getAllNames = async (req: Request, res: Response) => {
+// Mettre à jour un taux horaire
+export const updateHourlyRate = async (req: Request, res: Response) => {
     try {
-        const users = await prisma.HourlyRate.findMany();
-        res.status(200).json({ message: 'Users fetched successfully', users });
+        const id = parseInt(req.params.id);
+        const { level, subjectId, rate, realrate } = req.body;
+        const updatedHourlyRate = await prisma.hourlyRate.update({
+            where: {
+                id,
+            },
+            data: {
+                level,
+                subjectId,
+                rate,
+                realrate,
+            },
+        });
+        res.status(200).json({ message: 'Hourly rate updated successfully', hourlyRate: updatedHourlyRate });
     } catch (error) {
-        console.error('Error fetching users:', error);
-        res.status(500).json({ message: 'Failed to fetch users' });
+        console.error('Error updating hourly rate:', error);
+        if (error.code === 'P2025') {
+            res.status(404).json({ message: 'Hourly rate not found' });
+        } else {
+            res.status(500).json({ message: 'Failed to update hourly rate' });
+        }
     }
-}
+};
