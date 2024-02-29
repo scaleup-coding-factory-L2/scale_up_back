@@ -53,14 +53,19 @@ export const updateSubject = async (req: Request, res: Response) => {
 };
 
 export const deleteSubject = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  await prisma.subject.delete({
-    where: {
-      id: parseInt(id),
-    },
-  });
-  res.status(200).json({ message: 'Subject deleted successfully' });
+  try {
+    const { id } = req.params;
+    await prisma.subject.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
+    res.status(200).json({ message: 'Subject deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while deleting the subject' });
+  }
 };
+
 
 
 
