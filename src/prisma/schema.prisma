@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-  id            Int                    @id @default(autoincrement())
-  uuid          String                 @unique
-  absences      Absence[]
-  promotions    Promotion[]
-  syllabus      Syllabus[]
-  contracts     Contract[]
-  legalFiles    LegalFile[]
-  offers        Offer[]
-  notifications NotificationSettings[]
-  companies     Company[]
+  id                   Int                    @id @default(autoincrement())
+  uuid                 String                 @unique
+  absences             Absence[]
+  promotions           Promotion[]
+  syllabus             Syllabus[]
+  contracts            Contract[]
+  legalFiles           LegalFile[]
+  offers               Offer[]
+  notificationSettings NotificationSettings[]
+  companies            Company[]
+  notifications        Notification[]
 }
 
 model Absence {
@@ -227,4 +228,16 @@ model PurchaseOrder {
   description String
   quotation   Quotation @relation(fields: [quotationId], references: [id])
   dei         Dei       @relation(fields: [deiId], references: [id])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  title     String
+  text      String
+  category  Int
+  status    Int
+  dueDate   DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }
