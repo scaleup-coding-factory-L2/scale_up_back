@@ -40,12 +40,12 @@ export const getTestSubject = (req: Request, res: Response) => {
 }
 
 export const createSubject = async (req: Request, res: Response) => {
-  const { name, level ,category} = req.body;
+  const { name, level ,categoryId} = req.body;
   const newSubject = await prisma.subject.create({
     data: {
       name,
       level,
-      category
+      categoryId
     },
   });
   res.json(newSubject);
@@ -53,7 +53,7 @@ export const createSubject = async (req: Request, res: Response) => {
 
 export const updateSubject = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { name, level, category } = req.body;
+  const { name, level, categoryId } = req.body;
   const updatedSubject = await prisma.subject.update({
     where: {
       id: parseInt(id),
@@ -61,7 +61,7 @@ export const updateSubject = async (req: Request, res: Response) => {
     data: {
       name,
       level,
-      category
+      categoryId
     },
   });
   res.json(updatedSubject);
