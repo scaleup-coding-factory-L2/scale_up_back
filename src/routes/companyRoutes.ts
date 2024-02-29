@@ -4,6 +4,6 @@ import { getUserCompany } from "@/controllers/UserController";
 
 const router = Router();
 
-router.get("/:id/company", getUserCompany);
+router.get("/:id/contributors", getUserCompany);
 
 export default router;

@@ -1,13 +1,11 @@
 import { Request, Response } from "express";
 
-import { getStructureByUserId } from "../services/StructureService";
+import { getCompanyByUserId } from "@/services/CompanyService";
 
-export const getUserStructure = async (req: Request, res: Response) => {
-  // Récupérez l'ID de l'utilisateur de l'URL
+export const getUserCompany = async (req: Request, res: Response) => {
   const userId: string = req.params.id;
 
-  const structure = await getStructureByUserId(Number(userId));
+  const company = await getCompanyByUserId(Number(userId));
 
-  // Renvoyez les informations de l'entreprise en réponse à la demande
-  res.json(structure);
+  res.json(company);
 };
