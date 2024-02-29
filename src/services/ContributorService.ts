@@ -15,3 +15,11 @@ export async function getContributorsByUserId(companyId: number) {
     },
   });
 }
+
+export async function deleteContributorById(contributorId: number) {
+  return await prisma.contributor.delete({
+    where: {
+      id: contributorId,
+    },
+  });
+}
