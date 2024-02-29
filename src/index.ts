@@ -1,10 +1,12 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
+import morgan from "morgan";
+
+import companyRoutes from "./routes/companyRoutes";
+import contributorRoutes from "./routes/contributorRoutes";
 import helloRoutes from "./routes/helloRoutes";
 import userRoutes from "./routes/userRoutes";
-import companyRoutes from "./routes/companyRoutes";
-import morgan from "morgan";
 
 const app = express();
 
@@ -16,5 +18,6 @@ app.use(morgan("tiny"));
 app.use("/api", helloRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/companies", companyRoutes);
+app.use("/api/contributors", contributorRoutes);
 
 export { app };
