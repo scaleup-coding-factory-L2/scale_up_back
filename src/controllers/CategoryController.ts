@@ -1,24 +1,15 @@
-/*
-model Category {
-  id Int @id @default(autoincrement())
-  name String
-  subjects Subject[]
-}
-}*/ 
-import {PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express'
 
 const prisma = new PrismaClient();
 
 export const getAllCategory = async (req: Request, res: Response) => {
-  const categorys = await prisma.category.findMany();
-  res.json(categorys);
+  const categories = await prisma.category.findMany();
+  res.status(200).json(categories);
 };
-export const getTestCategory = (req: Request, res: Response) => {
-  res.status(200).json({ message: 'Hello category!' })
-}
 
-export const getCategoryeBySubjectId = async (req: Request, res: Response) => {
+
+export const getCategoryBySubjectId = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
@@ -28,7 +19,7 @@ export const getCategoryeBySubjectId = async (req: Request, res: Response) => {
       }
     });
 
-    res.json(category);
+    res.status(200).json(category);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -41,7 +32,7 @@ export const createCategory = async (req: Request, res: Response) => {
       name
     },
   });
-  res.json(newCategory);
+  res.status(200).json(newCategory);
 };
 
 export const updateCategory = async (req: Request, res: Response) => {
@@ -55,7 +46,7 @@ export const updateCategory = async (req: Request, res: Response) => {
       name
     },
   });
-  res.json(updatedCategory);
+  res.status(200).json(updatedCategory);
 };
 
 export const deleteCategory = async (req: Request, res: Response) => {
@@ -65,7 +56,7 @@ export const deleteCategory = async (req: Request, res: Response) => {
       id: parseInt(id),
     },
   });
-  res.json({ message: 'Category deleted successfully' });
+  res.status(200).json({ message: 'Category deleted successfully' });
 };
 
 

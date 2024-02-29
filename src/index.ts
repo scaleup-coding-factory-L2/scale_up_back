@@ -16,7 +16,7 @@ app.use(express.json())
 app.use(morgan('tiny'))
 
 app.use('/api', helloRoutes)
-app.use('/sub', subjectRoutes)
-app.use('/cat', categoryRoutes)
+app.use('/api/subject', subjectRoutes)
+app.use('/api/category', categoryRoutes)
 
 export { app }

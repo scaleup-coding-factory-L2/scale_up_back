@@ -1,21 +1,11 @@
-/*
-model Subject {
-  id Int @id @default(autoincrement())
-  name String
-  level String
-  category String
-  syllabus Syllabus[]
-  needs Need[]
-  hourlyRates HourlyRate[]
-}*/ 
-import {PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express'
 
 const prisma = new PrismaClient();
 
 export const getAllSubject = async (req: Request, res: Response) => {
   const subjects = await prisma.subject.findMany();
-  res.json(subjects);
+  res.status(200).json(subjects);
 };
 
 export const getSubjectsByCategoryId = async (req: Request, res: Response) => {
@@ -28,16 +18,11 @@ export const getSubjectsByCategoryId = async (req: Request, res: Response) => {
       }
     });
 
-    res.json(subjects);
+    res.status(200).json(subjects);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
-
-export const getTestSubject = (req: Request, res: Response) => {
-  res.status(200).json({ message: 'Hello subject!' })
-}
 
 export const createSubject = async (req: Request, res: Response) => {
   const { name, level ,categoryId} = req.body;
@@ -48,7 +33,7 @@ export const createSubject = async (req: Request, res: Response) => {
       categoryId
     },
   });
-  res.json(newSubject);
+  res.status(200).json(newSubject);
 };
 
 export const updateSubject = async (req: Request, res: Response) => {
@@ -64,7 +49,7 @@ export const updateSubject = async (req: Request, res: Response) => {
       categoryId
     },
   });
-  res.json(updatedSubject);
+  res.status(200).json(updatedSubject);
 };
 
 export const deleteSubject = async (req: Request, res: Response) => {
@@ -74,7 +59,7 @@ export const deleteSubject = async (req: Request, res: Response) => {
       id: parseInt(id),
     },
   });
-  res.json({ message: 'Subject deleted successfully' });
+  res.status(200).json({ message: 'Subject deleted successfully' });
 };
 
 
