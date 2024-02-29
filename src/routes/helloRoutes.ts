@@ -1,16 +1,21 @@
 import { Router } from 'express'
 
 import { getHello } from '../controllers/HelloController'
-import { uploadPDF } from '../controllers/UploadController'
+import { uploadSyllabus, getSubjects, getNeed, getOffers } from '../controllers/UploadController'
+import { PrismaClient } from '@prisma/client'
 
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const prisma = new PrismaClient();
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
-const router = Router()
+const router = Router();
 
-router.get('/', getHello)
+router.get('/', getHello);
 
-const cpUpload = upload.fields([{ name: 'ptf', maxCount: 1 }, { name: 'syllabus', maxCount: 1 }])
-router.post('/uploadPDF', cpUpload, uploadPDF)
+router.get('/getSubjects', getSubjects);
+router.get('/getOffers', getOffers);
+router.get('/getNeed', getNeed);
+
+router.post('/uploadSyllabus', uploadSyllabus);
 
 export default router
