@@ -17,6 +17,24 @@ export const getAllSubject = async (req: Request, res: Response) => {
   const subjects = await prisma.subject.findMany();
   res.json(subjects);
 };
+
+export const getSubjectsByCategoryId = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const subjects = await prisma.subject.findMany({
+      where: {
+        categoryId: parseInt(id)
+      }
+    });
+
+    res.json(subjects);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
 export const getTestSubject = (req: Request, res: Response) => {
   res.status(200).json({ message: 'Hello subject!' })
 }

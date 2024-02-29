@@ -18,6 +18,22 @@ export const getTestCategory = (req: Request, res: Response) => {
   res.status(200).json({ message: 'Hello category!' })
 }
 
+export const getCategoryeBySubjectId = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const category = await prisma.category.findMany({
+      where: {
+        id: parseInt(id)
+      }
+    });
+
+    res.json(category);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const createCategory = async (req: Request, res: Response) => {
   const { name } = req.body;
   const newCategory = await prisma.category.create({
