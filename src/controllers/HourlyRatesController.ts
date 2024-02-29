@@ -78,3 +78,14 @@ export const updateHourlyRate = async (req: Request, res: Response) => {
         }
     }
 };
+
+export const getAllSubjectsNames = async (req: Request, res: Response) => {
+    try {
+        const subjects = await prisma.Subject.findMany();
+        const subjectsData = subjects.map(({ id, name }) => ({ id, name }));
+        res.status(200).json({ message: 'Subjects fetched successfully', subjects: subjectsData });
+    } catch (error) {
+        console.error('Error fetching subjects:', error);
+        res.status(500).json({ message: 'Failed to fetch subjects' });
+    }
+};
