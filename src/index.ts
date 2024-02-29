@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import helloRoutes from './routes/helloRoutes'
+import NotificationRoutes from './routes/NotificationRoutes'
 import morgan from 'morgan'
 
 const app = express()
@@ -12,5 +13,7 @@ app.use(express.json())
 app.use(morgan('tiny'))
 
 app.use('/api', helloRoutes)
+app.use('/api', NotificationRoutes)
+
 
 export { app }
