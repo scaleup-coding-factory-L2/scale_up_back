@@ -1,30 +1,47 @@
-import { PrismaClient, Prisma, User } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import { Request, Response } from 'express'
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
+
+let path = '';
 
 interface Syllabus {
     subjectId: number,
     authorId: number,
     offerId: number,
-    file: string,
+    fileName: string,
+    file: object,
     createdAt: Date,
     user: User
 }
 
+interface MulterRequest extends Request {
+    file: {
+        path: string
+    }
+}
+
 export const uploadSyllabus = async (req: Request, res: Response) => {
-    console.log(req.body)
     const d: Syllabus = req.body
-    const syllabus = await prisma.syllabus.create({
-        data: {
-            subjectId: d.subjectId,
-            authorId: d.authorId,
-            offerId: d.offerId,
-            file: d.file,
-            createdAt: d.createdAt,
-        }
-    })
-    res.status(200).json(syllabus)
+    if(path != '') {
+        const syllabus = await prisma.syllabus.create({
+            data: {
+                subjectId: d.subjectId,
+                authorId: d.authorId,
+                offerId: d.offerId,
+                file: path,
+                createdAt: d.createdAt,
+            }
+        })
+        res.status(200).json(syllabus)
+    } else {
+        res.status(500).send('Path not found');
+    }
+}
+
+export const uploadSyllabusFile = async (req: Request, res: Response) => {
+    path = (req as MulterRequest).file.path
+    res.status(200).send('ok')
 }
 
 export const getSubjects = async (req: Request, res: Response) => {
