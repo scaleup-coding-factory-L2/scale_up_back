@@ -1,14 +1,4 @@
-/*
-model Subject {
-  id Int @id @default(autoincrement())
-  name String
-  level String
-  category String
-  syllabus Syllabus[]
-  needs Need[]
-  hourlyRates HourlyRate[]
-}*/ 
-import {PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express'
 
 const prisma = new PrismaClient();
@@ -17,9 +7,22 @@ export const getAllSubject = async (req: Request, res: Response) => {
   const subjects = await prisma.subject.findMany();
   res.status(200).json(subjects);
 };
-export const getTestSubject = (req: Request, res: Response) => {
-  res.status(200).json({ message: 'Hello subject!' })
-}
+
+export const getSubjectsByCategoryId = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const subjects = await prisma.subject.findMany({
+      where: {
+        categoryId: parseInt(id)
+      }
+    });
+
+    res.status(200).json(subjects);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export const createSubject = async (req: Request, res: Response) => {
   const { name, level ,category} = req.body;
@@ -78,20 +81,7 @@ export const deleteSubject = async (req: Request, res: Response) => {
       id: parseInt(id),
     },
   });
-
-  if (!existingSubject) {
-    return res.status(404).json({ error: `La matière/module à supprimer n'existe pas.` });
-  }
-
-    await prisma.subject.delete({
-      where: {
-        id: parseInt(id),
-      },
-    });
-    res.status(200).json({ message: 'Le module a été correctement supprimé !' });
-  } catch (error) {
-    res.status(500).json({ error: 'Une erreur est survenue lors de la suppression du module.' });
-  }
+  res.status(200).json({ message: 'Subject deleted successfully' });
 };
 
 
