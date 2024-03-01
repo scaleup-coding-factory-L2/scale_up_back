@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createNotif } from '../services/NotifService';
+import { createNotif } from '../services/NotificationService';
 
 export const addNotif = async (req: Request, res: Response) => {
     const body = req.body;
