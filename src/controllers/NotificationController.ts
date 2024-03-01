@@ -11,10 +11,14 @@ model Notifaction {
   subjects Subject[]
 }
 }*/ 
-import {PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express'
 
 const prisma = new PrismaClient();
+
+export const getTestNotification = (req: Request, res: Response) => {
+  res.status(200).json({ message: 'Hello notification!' })
+}
 
 export const getAllNotification = async (req: Request, res: Response) => {
   const notification = await prisma.notification.findMany();
@@ -22,18 +26,19 @@ export const getAllNotification = async (req: Request, res: Response) => {
 };
 
 export const getUserNotification = async (req: Request, res: Response) => {
-  const { userId } = req.params;
+  try {
+  const { id } = req.params;
   const notification = await prisma.notification.findMany({
     where: {
-      userId: parseInt(userId),
+      userId: parseInt(id),
     }
   });
   res.json(notification);
+  res.end;
+ }catch (err){
+    console.log(err.message);
+ }
 };
-
-export const getTestNotification = (req: Request, res: Response) => {
-  res.status(200).json({ message: 'Hello notification!' })
-}
 
 export const createNotification = async (req: Request, res: Response) => {
   const { userId, title, text, category, status, dueDate} = req.body;
@@ -47,12 +52,14 @@ export const createNotification = async (req: Request, res: Response) => {
       dueDate,
     },
   });
+
   res.json(newNotification);  
 };
 
+
 export const updateNotification = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { userId, title, text, category, status, dueDate} = req.body;
+  const { userId, title, text, category, status, dueDate } = req.body;
   const updatedNotification = await prisma.notification.update({
     where: {
       id: parseInt(id),
