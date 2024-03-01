@@ -25,6 +25,7 @@
 !.nycrc
 !.yamllint.yaml
 !.env.exemple
+!/docker/.env.example
 
 # === Rules for root dir ===
 /core
@@ -175,3 +176,6 @@ compile_commands.json
 package-lock.json
 
 dist/
+
+#migrations
+/src/prisma/migrations/*
