@@ -79,6 +79,29 @@ export const updateHourlyRate = async (req: Request, res: Response) => {
     }
 };
 
+export const updateHourlyRateRealRate = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        const { realrate } = req.body;
+        const updatedHourlyRate = await prisma.hourlyRate.update({
+            where: {
+                id,
+            },
+            data: {
+                realrate,
+            },
+        });
+        res.status(200).json({ message: 'Hourly rate updated successfully', hourlyRate: updatedHourlyRate });
+    } catch (error) {
+        console.error('Error updating hourly rate:', error);
+        if (error.code === 'P2025') {
+            res.status(404).json({ message: 'Hourly rate not found' });
+        } else {
+            res.status(500).json({ message: 'Failed to update hourly rate' });
+        }
+    }
+}
+
 export const getAllSubjectsNames = async (req: Request, res: Response) => {
     try {
         const subjects = await prisma.Subject.findMany();
