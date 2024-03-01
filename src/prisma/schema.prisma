@@ -163,6 +163,7 @@ model Bill {
 model Contract {
   id Int @id @default(autoincrement())
   signatoryId Int
+  purchaseOrderId Int
   hourlyPrice Float
   hoursVolume Int
   total Float
@@ -170,6 +171,7 @@ model Contract {
   isVerified Boolean @default(false)
   startDate DateTime
   endDate DateTime
+  purchaseOrder PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
   signatory User @relation(fields: [signatoryId], references: [id])
   bills Bill[]
 }
@@ -234,4 +236,5 @@ model PurchaseOrder{
   description String
   quotation Quotation @relation(fields: [quotationId], references: [id])
   dei Dei @relation(fields: [deiId], references: [id])
+  contract Contract[]
 }
