@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 
 const prisma = new PrismaClient();
 
-let path = '';
+let syllabusPath = '';
 
 interface Syllabus {
     subjectId: number,
@@ -18,18 +18,21 @@ interface Syllabus {
 interface MulterRequest extends Request {
     file: {
         path: string
+    },
+    body: {
+        offerID: string
     }
 }
 
 export const uploadSyllabus = async (req: Request, res: Response) => {
     const d: Syllabus = req.body
-    if(path != '') {
+    if(syllabusPath != '') {
         const syllabus = await prisma.syllabus.create({
             data: {
                 subjectId: d.subjectId,
                 authorId: d.authorId,
                 offerId: d.offerId,
-                file: path,
+                file: syllabusPath,
                 createdAt: d.createdAt,
             }
         })
@@ -40,7 +43,22 @@ export const uploadSyllabus = async (req: Request, res: Response) => {
 }
 
 export const uploadSyllabusFile = async (req: Request, res: Response) => {
-    path = (req as MulterRequest).file.path
+    syllabusPath = (req as MulterRequest).file.path
+    res.status(200).send('ok')
+}
+
+export const uploadPTF = async (req: Request, res: Response) => {
+    const ptfPath = (req as MulterRequest).file.path
+    const offerID = (req as MulterRequest).body.offerID
+
+    await prisma.offer.update({
+        where: {
+          id: parseInt(offerID),
+        },
+        data: {
+          ptf: ptfPath,
+        },
+      })
     res.status(200).send('ok')
 }
 

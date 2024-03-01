@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import { getHello } from '../controllers/HelloController'
-import { uploadSyllabus, uploadSyllabusFile, getSubjects, getNeed, getOffers } from '../controllers/UploadController'
+import { uploadSyllabus, uploadSyllabusFile, getSubjects, getNeed, getOffers, uploadPTF } from '../controllers/UploadController'
 
 const router = Router();
 
@@ -16,5 +16,6 @@ router.get('/getNeed', getNeed);
 
 router.post('/uploadSyllabusFile', upload.single('syllabus'), uploadSyllabusFile);
 router.post('/uploadSyllabus', uploadSyllabus);
+router.post('/uploadPTF', upload.single('ptf'), uploadPTF);
 
 export default router
