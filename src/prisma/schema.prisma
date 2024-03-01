@@ -17,11 +17,7 @@ model User {
   legalFiles    LegalFile[]
   offers        Offer[]
   notifications NotificationSettings[]
-<<<<<<< HEAD
-  Company       Company?
-=======
   companies     Company[]
->>>>>>> 5b43073a3d04f251f204f3c6deb0ead26cea4199
 }
 
 model Absence {
@@ -136,11 +132,8 @@ model Need {
   subject       Subject?     @relation(fields: [idSubject], references: [id])
   promotion     Promotion?   @relation(fields: [idPromotion], references: [id])
   contributor   Contributor? @relation(fields: [idContributor], references: [id])
-<<<<<<< HEAD
-=======
   offers        Offer[]
   dei           Dei[]
->>>>>>> 5b43073a3d04f251f204f3c6deb0ead26cea4199
 }
 
 model School {
@@ -150,14 +143,6 @@ model School {
 }
 
 model Bill {
-<<<<<<< HEAD
-  id         Int      @id @default(autoincrement())
-  contractId Int
-  total      Float
-  status     Int
-  validity   Boolean
-  contract   Contract @relation(fields: [contractId], references: [id])
-=======
   id          Int        @id @default(autoincrement())
   contractId  Int
   quotationId Int
@@ -167,7 +152,6 @@ model Bill {
   contract    Contract?  @relation(fields: [contractId], references: [id])
   quotation   Quotation? @relation(fields: [quotationId], references: [id])
   dei         Dei[]
->>>>>>> 5b43073a3d04f251f204f3c6deb0ead26cea4199
 }
 
 model Contract {
@@ -221,10 +205,7 @@ model Quotation {
   contributorId Int
   contributor   Contributor     @relation(fields: [contributorId], references: [id])
   offer         Offer           @relation(fields: [offerId], references: [id])
-<<<<<<< HEAD
-=======
   bills         Bill[]
->>>>>>> 5b43073a3d04f251f204f3c6deb0ead26cea4199
   purchaseOrder PurchaseOrder[]
   date          DateTime
 }
