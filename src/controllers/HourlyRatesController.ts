@@ -102,6 +102,25 @@ export const updateHourlyRateRealRate = async (req: Request, res: Response) => {
     }
 }
 
+export const deleteHourlyRate = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        await prisma.hourlyRate.delete({
+            where: {
+                id,
+            },
+        });
+        res.status(200).json({ message: 'Hourly rate deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting hourly rate:', error);
+        if (error.code === 'P2025') {
+            res.status(404).json({ message: 'Hourly rate not found' });
+        } else {
+            res.status(500).json({ message: 'Failed to delete hourly rate' });
+        }
+    }
+}
+
 export const getAllSubjectsNames = async (req: Request, res: Response) => {
     try {
         const subjects = await prisma.Subject.findMany();
