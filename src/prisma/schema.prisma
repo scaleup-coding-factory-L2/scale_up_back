@@ -61,8 +61,8 @@ model Category {
 
 model Promotion {
   id Int @id @default(autoincrement())
-  schoolYear Int
-  name String
+  startSchoolYear Int
+  endSchoolYear Int
   managerId Int
   manager User @relation(fields: [managerId], references: [id])
   needs Need[]
@@ -129,11 +129,15 @@ model Need {
   status Int
   idContributor Int
   hoursVolume Int
+  startSchoolYear Int
+  endSchoolYear Int
   subject Subject? @relation(fields: [idSubject], references: [id])
   promotion Promotion? @relation(fields: [idPromotion], references: [id])
   contributor Contributor? @relation(fields: [idContributor], references: [id])
   offers Offer[]
   dei Dei[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model School {
@@ -194,6 +198,7 @@ model HourlyRate {
   level String
   subjectId Int
   rate Float
+  realrate Float
   subject Subject @relation(fields: [subjectId], references: [id])
 }
 
