@@ -1,17 +1,11 @@
-import { read } from 'fs';
-import { createUserByUuid , readUsers} from '../services/UserService';
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 
-export const createUser = async (req: Request, res: Response) => {
-    const body = req.body;
+import { getCompanyByUserId } from "@/services/CompanyService";
 
-    const uuid = body.uuid;
+export const getUserCompany = async (req: Request, res: Response) => {
+  const userId: string = req.params.id;
 
-    const newUser = await createUserByUuid(uuid);
+  const company = await getCompanyByUserId(Number(userId));
 
-    res.status(200).json(newUser);
-};
-export const getUsers = async (req: Request, res: Response) => {
-    const users = await readUsers();
-    res.status(200).json(users);
+  res.json(company);
 };

@@ -1,10 +1,9 @@
-import { createUser , getUsers} from '../controllers/UserController'
-import { Router } from 'express'
+import { Router } from "express";
 
-const router = Router()
+import { getUserCompany } from "@/controllers/UserController";
 
-router.post('/', createUser)
-router.get('/', getUsers )
+const router = Router();
 
+router.get("/:id/company", getUserCompany);
 
-export default router
+export default router;
