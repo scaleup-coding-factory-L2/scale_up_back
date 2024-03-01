@@ -1,9 +1,7 @@
-import { Router } from 'express'
+import express, { Router } from 'express';
+import { getHello } from '../controllers/HelloController';
 
-import { getHello } from '../controllers/HelloController'
+const router: Router = express.Router();
 
-const router = Router()
-
-router.get('/', getHello)
-
-export default router
+router.get('/', getHello);
+export default router;

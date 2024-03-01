@@ -35,5 +35,6 @@ app.use(keycloak.middleware())
 app.use(createUserIfNotExistsMiddleware)
 
 app.use('/api', helloRoutes)
+app.use('/api/filtreRoute', )
 
 export { app }

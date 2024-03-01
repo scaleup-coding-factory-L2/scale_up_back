@@ -1,0 +1,70 @@
+import express, { Express, Request, Response } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import needRoutes from '../routes/helloRoutes';
+import morgan from 'morgan';
+import http from 'http';
+import { Server, Socket } from 'socket.io';
+import { createNeed } from './needController';
+
+const app: Express = express();
+const server = http.createServer(app);
+const io = new Server(server);
+
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
+app.use(morgan('tiny'));
+
+app.use('/api', needRoutes);
+
+const port = process.env.PORT || 3000;
+
+server.listen(port, () => {
+  console.log(`Server started on http://localhost:${port}/api ! 🚀`);
+});
+
+io.on('connection', (socket: Socket) => {
+  console.log('A user connected');
+
+  setInterval(() => {
+    const updatedSubjects = [
+      { id: 1, name: 'Mathématiques', year: 2023, promotion: 'A' },
+      { id: 2, name: 'Physique', year: 2022, promotion: 'B' },
+      { id: 3, name: 'Chimie', year: 2023, promotion: 'A' }
+    ];
+    socket.emit('subjects', updatedSubjects);
+  }, 5000); 
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
+
+app.post('/api/need', async (req: Request, res: Response) => {
+  const { userUUID, promotion } = req.body;
+
+  if (!userUUID || !promotion) {
+    return res.status(400).json({ error: 'Missing userUUID or promotion' });
+  }
+
+  try {
+    const users = await createNeed(userUUID, promotion);
+    return res.json(users);
+  } catch (error) {
+    console.error('Error creating need:', error);
+    return res.status(500).json({ error: 'Failed to create need' });
+  }
+});
+
+export default app;
+
+export const getallfiltres = async (req: Request, res: Response) => {
+  try {
+    const filtres = await prisma.filtre.findMany();
+    return res.json(filtres);
+  } catch (error) {
+    console.error('Error getting filtres:', error);
+    return res.status(500).json({ error: 'Failed to get filtres' });
+  }
+}
