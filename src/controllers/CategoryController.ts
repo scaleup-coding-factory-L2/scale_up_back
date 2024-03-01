@@ -9,7 +9,7 @@ export const getAllCategory = async (req: Request, res: Response) => {
 };
 
 
-export const getCategoryBySubjectId = async (req: Request, res: Response) => {
+export const getCategoriesBySubjectId = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
