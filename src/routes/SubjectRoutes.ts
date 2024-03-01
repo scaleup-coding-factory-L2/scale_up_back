@@ -14,12 +14,12 @@ export default router
 */
 import { Router } from 'express';
 import { body, param } from 'express-validator';
-import { getAllSubject, createSubject, deleteSubject, updateSubject, getSubjectsByCategoryId } from '../controllers/SubjectController';
+import { getAllSubjects, createSubject, deleteSubject, updateSubject, getSubjectsByCategoryId } from '../controllers/SubjectController';
 import { validate } from '../middlewares/validationMiddleware';
 
 const router = Router();
 
-router.get('/subject', getAllSubject);
+router.get('/subject', getAllSubjects);
 
 router.post('/subject', [
   body('name').notEmpty().withMessage('Name is required'),
