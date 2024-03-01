@@ -37,6 +37,18 @@ export const createSubject = async (req: Request, res: Response) => {
 export const updateSubject = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name, level, categoryId } = req.body;
+
+
+  const existingSubject = await prisma.category.findUnique({
+    where: {
+      id: parseInt(id),
+    },
+  });
+
+  if (!existingSubject) {
+    return res.status(404).json({ error: `La matière/module à supprimer n'existe pas.` });
+  }
+
   const updatedSubject = await prisma.subject.update({
     where: {
       id: parseInt(id),
@@ -53,6 +65,18 @@ export const updateSubject = async (req: Request, res: Response) => {
 export const deleteSubject = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+
+
+  const existingSubject = await prisma.category.findUnique({
+    where: {
+      id: parseInt(id),
+    },
+  });
+
+  if (!existingSubject) {
+    return res.status(404).json({ error: `La matière/module à supprimer n'existe pas.` });
+  }
+
     await prisma.subject.delete({
       where: {
         id: parseInt(id),

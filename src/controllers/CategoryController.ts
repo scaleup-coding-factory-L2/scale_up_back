@@ -36,6 +36,17 @@ export const createCategory = async (req: Request, res: Response) => {
 export const updateCategory = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name } = req.body;
+
+  const existingCategory = await prisma.category.findUnique({
+    where: {
+      id: parseInt(id),
+    },
+  });
+
+  if (!existingCategory) {
+    return res.status(404).json({ error: `La catégorie à mettre à jour n'existe pas.` });
+  }
+
   const updatedCategory = await prisma.category.update({
     where: {
       id: parseInt(id),
@@ -44,21 +55,30 @@ export const updateCategory = async (req: Request, res: Response) => {
       name
     },
   });
+
   res.status(200).json(updatedCategory);
 };
 
 export const deleteCategory = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    await prisma.category.delete({
-      where: {
-        id: parseInt(id),
-      },
-    });
-    res.status(200).json({ message: 'La catégorie a été correctement supprimée !' });
-  } catch (error) {
-    res.status(500).json({ error: 'Une erreur est survenue lors de la suppression de la catégorie.' });
+  const { id } = req.params;
+
+  const existingCategory = await prisma.category.findUnique({
+    where: {
+      id: parseInt(id),
+    },
+  });
+
+  if (!existingCategory) {
+    return res.status(404).json({ error: `La catégorie à supprimer n'existe pas.` });
   }
+
+  await prisma.category.delete({
+    where: {
+      id: parseInt(id),
+    },
+  });
+
+  res.status(200).json({ message: `Catégorie supprimée avec succès` });
 };
 
 
