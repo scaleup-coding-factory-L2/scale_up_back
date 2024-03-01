@@ -1,6 +1,3 @@
--- A SUPPRIMER, RECUPERATION TEMPORAIRE POUR LES TESTS DES CHANGEMENTS
---------------------------------------------------------------------------------
-
 -- CreateTable
 CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
