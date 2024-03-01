@@ -19,7 +19,7 @@ import { validate } from '../middlewares/validationMiddleware';
 
 const router = Router();
 
-router.get('/subject', getAllSubjects);
+router.get('/', getAllSubjects);
 
 router.post('/subject', [
   body('name').notEmpty().withMessage('Name is required'),
