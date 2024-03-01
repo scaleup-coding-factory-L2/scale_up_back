@@ -12,7 +12,8 @@ model Notifaction {
 }
 }*/ 
 import { PrismaClient } from '@prisma/client';
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
+import { json } from 'stream/consumers';
 
 const prisma = new PrismaClient();
 
@@ -41,7 +42,8 @@ export const getUserNotification = async (req: Request, res: Response) => {
 };
 
 export const createNotification = async (req: Request, res: Response) => {
-  const { userId, title, text, category, status, dueDate} = req.body;
+  const { userId, category, status, dueDate} = req.body;
+  const { title, text } = req.body;
   const newNotification = await prisma.notification.create({
     data: {
       userId,
