@@ -62,15 +62,25 @@ export const uploadPTF = async (req: Request, res: Response) => {
     res.status(200).send('ok')
 }
 
+export const getPTF = async (req: Request, res: Response) => {
+    const offerID = req.url.split('offerID=', 2)[1];
+    const offer = await prisma.offer.findUnique({
+        where: {
+          id: parseInt(offerID),
+        }
+      })
+    res.download(offer.ptf);
+}
+
 export const getSubjects = async (req: Request, res: Response) => {
     try {
-        const needId = req.url.split('needId=', 2);
+        const needId = req.url.split('needId=', 2)[1];
         console.log(needId)
         const result = await prisma.subject.findMany({
             select: {
                 _count: {
                     select: {
-                        needs: { where: { id: parseInt(needId[1]) } }
+                        needs: { where: { id: parseInt(needId) } }
                     }
                 },
                 id: true,
@@ -87,13 +97,16 @@ export const getSubjects = async (req: Request, res: Response) => {
 
 export const getOffers = async (req: Request, res: Response) => {
     try {
-        const result = await prisma.offer.findMany({
+        const userID = req.url.split('userID=', 2)[1];
+        const result = await prisma.user.findUnique({
+            where: {
+                uuid: userID
+            },
             select: {
-                id: true,
-                needId: true
+               offers: true
             }
         });
-        res.json(result);
+        res.status(200).json(result.offers);
       } catch (err) {
         console.error(err);
         res.status(500).send('Internal Server Error');
