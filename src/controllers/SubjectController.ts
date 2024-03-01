@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../index';
 import { Request, Response } from 'express'
-
-const prisma = new PrismaClient();
 
 export const getAllSubjects = async (req: Request, res: Response) => {
   const subjects = await prisma.subject.findMany();
@@ -20,7 +18,7 @@ export const getSubjectsByCategoryId = async (req: Request, res: Response) => {
 
     res.status(200).json(subjects);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error: 'Erreur de serveur interne. Veuillez réessayer plus tard.' });
   }
 };
 
@@ -60,9 +58,9 @@ export const deleteSubject = async (req: Request, res: Response) => {
         id: parseInt(id),
       },
     });
-    res.status(200).json({ message: 'Subject deleted successfully' });
+    res.status(200).json({ message: 'Le module a été correctement supprimé !' });
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred while deleting the subject' });
+    res.status(500).json({ error: 'Une erreur est survenue lors de la suppression du module.' });
   }
 };
 

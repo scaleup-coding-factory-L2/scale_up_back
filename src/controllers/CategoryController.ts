@@ -1,7 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import { Request, Response } from 'express'
-
-const prisma = new PrismaClient();
+import { prisma } from '../index'
 
 export const getAllCategories = async (req: Request, res: Response) => {
   const categories = await prisma.category.findMany();
@@ -21,7 +19,7 @@ export const getCategoryBySubjectId = async (req: Request, res: Response) => {
 
     res.status(200).json(category);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error: 'Erreur de serveur interne. Veuillez réessayer plus tard.' });
   }
 };
 
@@ -50,13 +48,17 @@ export const updateCategory = async (req: Request, res: Response) => {
 };
 
 export const deleteCategory = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  await prisma.category.delete({
-    where: {
-      id: parseInt(id),
-    },
-  });
-  res.status(200).json({ message: 'Category deleted successfully' });
+  try {
+    const { id } = req.params;
+    await prisma.category.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
+    res.status(200).json({ message: 'La catégorie a été correctement supprimée !' });
+  } catch (error) {
+    res.status(500).json({ error: 'Une erreur est survenue lors de la suppression de la catégorie.' });
+  }
 };
 
 
