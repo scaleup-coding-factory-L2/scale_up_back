@@ -25,6 +25,17 @@ export const getCategoriesBySubjectId = async (req: Request, res: Response) => {
 
 export const createCategory = async (req: Request, res: Response) => {
   const { name } = req.body;
+
+  const existingCategory = await prisma.category.findFirst({
+    where: {
+      name: name,
+    },
+  });
+
+  if (existingCategory) {
+    return res.status(404).json({ error: `La catégorie à créer existe déjà` });
+  }
+
   const newCategory = await prisma.category.create({
     data: {
       name
