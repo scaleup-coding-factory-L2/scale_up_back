@@ -53,7 +53,14 @@ export const updateCategory = async (req: Request, res: Response) => {
       id: parseInt(id),
     },
   });
-
+  const existingnewCategory = await prisma.category.findFirst({
+    where: {
+      name: name,
+    },
+  });
+  if (existingnewCategory) {
+    return res.status(404).json({ error: `La catégorie à créer existe déjà.` });
+  }
   if (!existingCategory) {
     return res.status(404).json({ error: `La catégorie à mettre à jour n'existe pas.` });
   }
