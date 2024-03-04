@@ -72,6 +72,21 @@ export const getPTF = async (req: Request, res: Response) => {
     res.download(offer.ptf);
 }
 
+
+export const getSyllabus = async (req: Request, res: Response) => {
+    const subjectID = req.url.split('subjectID=', 2)[1];
+    const subject = await prisma.subject.findUnique({
+        where: {
+           id: parseInt(subjectID)
+        },
+        select: {
+            syllabus: true,
+        }
+      })
+    res.download(subject.syllabus[0].file);
+}
+
+
 export const getSubjects = async (req: Request, res: Response) => {
     try {
         const needId = req.url.split('needId=', 2)[1];
