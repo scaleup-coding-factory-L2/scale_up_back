@@ -39,7 +39,7 @@ app.use(keycloak.middleware())
 app.use(createUserIfNotExistsMiddleware)
 
 app.use('/api', helloRoutes)
-app.use('/api', subjectRoutes)
-app.use('/api', categoryRoutes)
+app.use('/api/subject', subjectRoutes)
+app.use('/api/category', categoryRoutes)
 
 export { app }

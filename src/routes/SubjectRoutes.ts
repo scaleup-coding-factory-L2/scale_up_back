@@ -5,8 +5,8 @@ import { getAllSubjects, createSubject, deleteSubject, updateSubject, getSubject
 
 const router = Router();
 
-router.get('/subject', getAllSubjects);
-router.post('/subject', [
+router.get('/', getAllSubjects);
+router.post('/', [
   body('name').notEmpty().withMessage('Le nom est obligatoire'),
   body('name').isLength({ min: 5, max: 20 }).withMessage('La longueur doit être entre 5 et 20 caractères pour le name de la matière/module'),
   body('level').notEmpty().withMessage('Le level est obligatoire'),
@@ -14,7 +14,7 @@ router.post('/subject', [
   body('categoryId').isInt().withMessage(`L'id de la catégorie est invalide`),
 ], createSubject);
 
-router.put('/subject/:id', [
+router.put('/:id', [
   param('id').isInt().withMessage(`L'id de la matière est invalide`),
   body('name').notEmpty().withMessage('Le nom est obligatoire'),
   body('name').isLength({ min: 5, max: 20 }).withMessage('La longueur doit être entre 5 et 20 caractères pour le name de la catégorie'),
@@ -23,11 +23,11 @@ router.put('/subject/:id', [
   body('categoryId').isInt().withMessage(`L'id de la catégorie est invalide`),
 ], updateSubject);
 
-router.delete('/subject/:id', [
+router.delete('/:id', [
   param('id').isInt().withMessage(`L'id de la matière/module est incorrect`),
 ], deleteSubject);
 
-router.get('/subject/:id', [
+router.get('/:id', [
   param('id').isInt().withMessage(`L'id de la matière/module est incorrect`),
 ], getSubjectsByCategoryId);
 
