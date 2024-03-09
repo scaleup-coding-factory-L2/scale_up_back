@@ -9,20 +9,14 @@
     "allowJs": true,
     "lib": ["dom", "es6"],
     "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "tests/**/*.spec.ts"
-  ],
+  "exclude": ["node_modules", "dist"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "tests/**/*.spec.ts"],
   "ts-node": {
     "files": true
   },
-  "files": [
-    "src/index.ts"
-  ]
+  "files": ["src/index.ts"]
 }
