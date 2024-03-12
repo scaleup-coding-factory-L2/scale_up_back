@@ -30,16 +30,14 @@ export const createSubject = async (req: Request, res: Response) => {
       id: parseInt(categoryId),
     },
   });
-  
+  if (!existingCategory) {
+    return res.status(404).json({ error: `La category que vous voulez utilisé pour créer la matière/module n'existe pas.` });
+  }
   const existingSubjectName = await prisma.subject.findFirst({
     where: {
       name: name,
     },
   });
-  if (!existingCategory) {
-    return res.status(404).json({ error: `La category que vous voulez utilisé pour créer la matière/module n'existe pas.` });
-  }
-
   if (existingSubjectName) {
     return res.status(404).json({ error: `Le nom de la matière/module à créer existe déjà` });
   }
@@ -65,6 +63,10 @@ export const updateSubject = async (req: Request, res: Response) => {
     },
   });
 
+  if (!existingSubject) {
+    return res.status(404).json({ error: `La matière/module à mettre à jour n'existe pas.` });
+  }
+
   const existingCategory = await prisma.category.findUnique({
     where: {
       id: parseInt(categoryId),
@@ -73,10 +75,6 @@ export const updateSubject = async (req: Request, res: Response) => {
 
   if (!existingCategory) {
     return res.status(404).json({ error: `La category que vous voulez utilisé pour mettre la matière/module à jour n'existe pas.` });
-  }
-
-  if (!existingSubject) {
-    return res.status(404).json({ error: `La matière/module à mettre à jour n'existe pas.` });
   }
 
   const updatedSubject = await prisma.subject.update({
