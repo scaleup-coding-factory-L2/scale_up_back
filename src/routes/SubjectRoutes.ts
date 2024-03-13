@@ -1,7 +1,7 @@
 
 import { Router } from 'express';
 import { body, param } from 'express-validator';
-import { getAllSubjects, createSubject, deleteSubject, updateSubject, getSubjectsByCategoryId } from '../controllers/SubjectController';
+import { getAllSubjects, createSubject, deleteSubject, updateSubject, getSubjectsByCategoryId,getSubjectsById } from '../controllers/SubjectController';
 
 const router = Router();
 
@@ -29,6 +29,10 @@ router.delete('/:id', [
 
 router.get('/:id', [
   param('id').isInt().withMessage(`L'id de la matière/module est incorrect`),
+], getSubjectsById);
+
+router.get('/category/:id', [
+  param('id').isInt().withMessage(`Aucune matière n'a cette catégorie si elle existe`),
 ], getSubjectsByCategoryId);
 
 export default router;

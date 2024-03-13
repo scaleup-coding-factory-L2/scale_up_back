@@ -22,6 +22,22 @@ export const getSubjectsByCategoryId = async (req: Request, res: Response) => {
   }
 };
 
+export const getSubjectsById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const subjects = await prisma.subject.findMany({
+      where: {
+        id: parseInt(id)
+      }
+    });
+
+    res.status(200).json(subjects);
+  } catch (error) {
+    res.status(500).json({ error: 'Erreur de serveur interne. Veuillez réessayer plus tard.' });
+  }
+};
+
 export const createSubject = async (req: Request, res: Response) => {
   const { name, level ,categoryId} = req.body;
 

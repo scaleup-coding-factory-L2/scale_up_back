@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { body, param } from 'express-validator';
 
-import { getAllCategories,  createCategory, deleteCategory, updateCategory,getCategoriesBySubjectId } from '../controllers/CategoryController'
+import { getAllCategories,  createCategory, deleteCategory, updateCategory,getCategoryById } from '../controllers/CategoryController'
 
 const router = Router()
 
@@ -23,6 +23,6 @@ router.delete('/:id',[
 ], deleteCategory);
 router.get('/:id',[  
     param('id').isInt().withMessage(`L'id de la catégorie est invalide`)
-], getCategoriesBySubjectId);
+], getCategoryById);
 
 export default router
