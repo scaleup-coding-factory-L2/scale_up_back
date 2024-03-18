@@ -2,6 +2,7 @@
 import { Router } from 'express';
 import { body, param } from 'express-validator';
 import { getAllSubjects, createSubject, deleteSubject, updateSubject, getSubjectsByCategoryId,getSubjectsById } from '../controllers/SubjectController';
+import { handleValidationErrors } from '../middlewares/handleValidator';
 
 const router = Router();
 
@@ -12,7 +13,7 @@ router.post('/', [
   body('level').notEmpty().withMessage('Le level est obligatoire'),
   body('level').isLength({ min: 5, max: 20 }).withMessage('La longueur doit être entre 5 et 20 caractères pour le level de la matière/module'),
   body('categoryId').isInt().withMessage(`L'id de la catégorie est invalide`),
-], createSubject);
+], handleValidationErrors, createSubject);
 
 router.put('/:id', [
   param('id').isInt().withMessage(`L'id de la matière est invalide`),
@@ -21,18 +22,18 @@ router.put('/:id', [
   body('level').notEmpty().withMessage('Le level est obligatoire'),
   body('level').isLength({ min: 5, max: 20 }).withMessage('La longueur doit être entre 5 et 20 caractères pour le level de la matière/module'),
   body('categoryId').isInt().withMessage(`L'id de la catégorie est invalide`),
-], updateSubject);
+], handleValidationErrors, updateSubject);
 
 router.delete('/:id', [
   param('id').isInt().withMessage(`L'id de la matière/module est incorrect`),
-], deleteSubject);
+], handleValidationErrors, deleteSubject);
 
 router.get('/:id', [
   param('id').isInt().withMessage(`L'id de la matière/module est incorrect`),
-], getSubjectsById);
+], handleValidationErrors, getSubjectsById);
 
 router.get('/category/:id', [
   param('id').isInt().withMessage(`Aucune matière n'a cette catégorie si elle existe`),
-], getSubjectsByCategoryId);
+], handleValidationErrors, getSubjectsByCategoryId);
 
 export default router;
