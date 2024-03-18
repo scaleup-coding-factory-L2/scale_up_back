@@ -201,6 +201,7 @@ model HourlyRate {
   subjectId Int
   rate Float
   realrate Float?
+  validate Boolean?
   subject Subject @relation(fields: [subjectId], references: [id])
 }
 
