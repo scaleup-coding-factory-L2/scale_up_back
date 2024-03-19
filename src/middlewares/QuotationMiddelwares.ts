@@ -12,7 +12,7 @@ export const selectQuotation = async (req: Request, res: Response) => {
             },
         });
         if (quotation) {
-            res.status(200).json({ message: 'Quotation fetched successfully', quotation });
+            res.status(200).json({ message: 'Quotation fetched successfully' });
         } else {
             res.status(404).json({ message: 'Quotation not found' });
         }
