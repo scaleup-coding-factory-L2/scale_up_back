@@ -21,3 +21,21 @@ export const selectQuotation = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Failed to fetch quotation' });
     }
 }
+
+export const updateQuotationStatus = async (req: Request, res: Response) => {
+    try {
+        const { id, status } = req.body;
+        const updatedQuotation = await prisma.quotation.update({
+            where: {
+                id: parseInt(id),
+            },
+            data: {
+                status,
+            },
+        });
+        res.status(200).json({ message: 'Quotation status updated successfully', quotation: updatedQuotation });
+    } catch (error) {
+        console.error('Error updating quotation status');
+        res.status(500).json({ message: 'Failed to update quotation status' });
+    }
+}
