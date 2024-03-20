@@ -20,7 +20,27 @@ export const getSubjectsByCategoryId = async (req: Request, res: Response) => {
 
     res.status(200).json(subjects);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error: 'Erreur de serveur interne. Veuillez réessayer plus tard.' });
+  }
+};
+
+export const getSubjectsById = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const subjects = await prisma.subject.findUnique({
+      where: {
+        id: parseInt(id)
+      }
+    });
+
+    if (subjects) {
+      res.status(200).json(subjects);
+    } else {
+      res.status(404).json({ error: 'Matière/module non trouvée' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Erreur de serveur interne. Veuillez réessayer plus tard.' });
   }
 };
 

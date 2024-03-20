@@ -13,13 +13,17 @@ export const getCategoriesBySubjectId = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const category = await prisma.category.findMany({
+    const category = await prisma.category.findUnique({
       where: {
         id: parseInt(id)
       }
     });
 
-    res.status(200).json(category);
+    if (category) {
+      res.status(200).json(category);
+    } else {
+      res.status(404).json({ error: 'Catégorie non trouvée' });
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
