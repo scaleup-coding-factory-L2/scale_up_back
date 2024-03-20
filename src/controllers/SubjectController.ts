@@ -26,13 +26,17 @@ export const getSubjectsById = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    const subjects = await prisma.subject.findMany({
+    const subjects = await prisma.subject.findUnique({
       where: {
         id: parseInt(id)
       }
     });
 
-    res.status(200).json(subjects);
+    if (subjects) {
+      res.status(200).json(subjects);
+    } else {
+      res.status(404).json({ error: 'Matière/module non trouvée' });
+    }
   } catch (error) {
     res.status(500).json({ error: 'Erreur de serveur interne. Veuillez réessayer plus tard.' });
   }
