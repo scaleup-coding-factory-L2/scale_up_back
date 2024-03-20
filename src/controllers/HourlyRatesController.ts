@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 import {
   addHourlyRate as addHourlyRateMiddleware,
   getAllHourlyRates as getAllHourlyRatesMiddleware,
@@ -6,9 +6,8 @@ import {
   updateHourlyRate as updateHourlyRateMiddleware,
   updateHourlyRateRealRate as updateHourlyRateRealRateMiddleware,
   deleteHourlyRate as deleteHourlyRateMiddleware,
-  getAllSubjectsNames as getAllSubjectsNamesMiddleware
-} from '../middlewares/HourlyRatesMiddlewares'; 
-
+  getAllSubjectsNames as getAllSubjectsNamesMiddleware,
+} from "../middlewares/HourlyRatesMiddlewares";
 
 export const addHourlyRate = async (req: Request, res: Response) => {
   return addHourlyRateMiddleware(req, res);

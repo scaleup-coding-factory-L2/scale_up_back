@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import {
-    selectQuotation as selectQuotationMiddleware,
-    updateQuotationStatus as updateQuotationStatusMiddleware,
-    selectAllQuotations as selectAllQuotationsMiddleware,
     deleteQuotation as deleteQuotationMiddleware,
-    updateQuotation as updateQuotationMiddleware
+    selectAllQuotations as selectAllQuotationsMiddleware,
+    selectQuotation as selectQuotationMiddleware,
+    updateQuotation as updateQuotationMiddleware,
+    updateQuotationStatus as updateQuotationStatusMiddleware
 } from '../middlewares/QuotationMiddelwares';
 
 export const selectQuotation = async (req: Request, res: Response) => {
