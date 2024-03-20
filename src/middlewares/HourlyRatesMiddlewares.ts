@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 export const addHourlyRate = async (req: Request, res: Response) => {
     try {
         const { level, subjectId, rate, realrate } = req.body;
-        const newHourlyRate = await prisma.hourlyRate.create({
+        await prisma.hourlyRate.create({
             data: {
                 level,
                 subjectId,
@@ -13,7 +13,7 @@ export const addHourlyRate = async (req: Request, res: Response) => {
                 realrate,
             },
         });
-        res.status(200).json({ message: 'Hourly rate created successfully', hourlyRate: newHourlyRate });
+        res.status(200).json({ message: 'Hourly rate created successfully', });
     } catch (error) {
         console.error('Error creating hourly rate');
         res.status(500).json({ message: 'Failed to create hourly rate' });
@@ -22,8 +22,8 @@ export const addHourlyRate = async (req: Request, res: Response) => {
 
 export const getAllHourlyRates = async (req: Request, res: Response) => {
     try {
-        const hourlyRates = await prisma.hourlyRate.findMany();
-        res.status(200).json({ message: 'Hourly rates fetched successfully', hourlyRates });
+        await prisma.hourlyRate.findMany();
+        res.status(200).json({ message: 'Hourly rates fetched successfully',  });
     } catch (error) {
         console.error('Error fetching hourly rates:');
         res.status(500).json({ message: 'Failed to fetch hourly rates' });
@@ -39,7 +39,7 @@ export const getHourlyRateById = async (req: Request, res: Response) => {
             },
         });
         if (hourlyRate) {
-            res.status(200).json({ message: 'Hourly rate fetched successfully', hourlyRate });
+            res.status(200).json({ message: 'Hourly rate fetched successfully'});
         } else {
             res.status(404).json({ message: 'Hourly rate not found' });
         }
@@ -53,7 +53,7 @@ export const updateHourlyRate = async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id);
         const { level, subjectId, rate, realrate } = req.body;
-        const updatedHourlyRate = await prisma.hourlyRate.update({
+        await prisma.hourlyRate.update({
             where: {
                 id,
             },
@@ -64,7 +64,7 @@ export const updateHourlyRate = async (req: Request, res: Response) => {
                 realrate,
             },
         });
-        res.status(200).json({ message: 'Hourly rate updated successfully', hourlyRate: updatedHourlyRate });
+        res.status(200).json({ message: 'Hourly rate updated successfully'});
     } catch (error) {
         console.error('Error updating hourly rate:');
         if (error.code === 'P2025') {
@@ -79,7 +79,7 @@ export const updateHourlyRateRealRate = async (req: Request, res: Response) => {
     try {
         const id = parseInt(req.params.id);
         const { realrate } = req.body;
-        const updatedHourlyRate = await prisma.hourlyRate.update({
+        await prisma.hourlyRate.update({
             where: {
                 id,
             },
@@ -87,7 +87,7 @@ export const updateHourlyRateRealRate = async (req: Request, res: Response) => {
                 realrate,
             },
         });
-        res.status(200).json({ message: 'Hourly rate updated successfully', hourlyRate: updatedHourlyRate });
+        res.status(200).json({ message: 'Hourly rate updated successfully' });
     } catch (error) {
         console.error('Error updating hourly rate:');
         if (error.code === 'P2025') {
@@ -120,8 +120,8 @@ export const deleteHourlyRate = async (req: Request, res: Response) => {
 export const getAllSubjectsNames = async (req: Request, res: Response) => {
     try {
         const subjects = await prisma.Subject.findMany();
-        const subjectsData = subjects.map(({ id, name }) => ({ id, name }));
-        res.status(200).json({ message: 'Subjects fetched successfully', subjects: subjectsData });
+        subjects.map(({ id, name }) => ({ id, name }));
+        res.status(200).json({ message: 'Subjects fetched successfully' });
     } catch (error) {
         console.error('Error fetching subjects:');
         res.status(500).json({ message: 'Failed to fetch subjects' });
