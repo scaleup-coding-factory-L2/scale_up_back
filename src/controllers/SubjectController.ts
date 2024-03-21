@@ -18,11 +18,9 @@ export const getSubjectsByCategoryId = async (req: Request, res: Response) => {
 
     res.status(200).json(subjects);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Erreur de serveur interne. Veuillez réessayer plus tard.",
-      });
+    res.status(500).json({
+      error: "Erreur de serveur interne. Veuillez réessayer plus tard.",
+    });
   }
 };
 
@@ -42,11 +40,9 @@ export const getSubjectsById = async (req: Request, res: Response) => {
       res.status(404).json({ error: "Matière/module non trouvée" });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Erreur de serveur interne. Veuillez réessayer plus tard.",
-      });
+    res.status(500).json({
+      error: "Erreur de serveur interne. Veuillez réessayer plus tard.",
+    });
   }
 };
 
@@ -59,11 +55,9 @@ export const createSubject = async (req: Request, res: Response) => {
     },
   });
   if (!existingCategory) {
-    return res
-      .status(404)
-      .json({
-        error: `La category que vous voulez utilisé pour créer la matière/module n'existe pas.`,
-      });
+    return res.status(404).json({
+      error: `La category que vous voulez utilisé pour créer la matière/module n'existe pas.`,
+    });
   }
   const existingSubjectName = await prisma.subject.findFirst({
     where: {
@@ -109,11 +103,9 @@ export const updateSubject = async (req: Request, res: Response) => {
   });
 
   if (!existingCategory) {
-    return res
-      .status(404)
-      .json({
-        error: `La category que vous voulez utilisé pour mettre la matière/module à jour n'existe pas.`,
-      });
+    return res.status(404).json({
+      error: `La category que vous voulez utilisé pour mettre la matière/module à jour n'existe pas.`,
+    });
   }
 
   const updatedSubject = await prisma.subject.update({
@@ -154,10 +146,8 @@ export const deleteSubject = async (req: Request, res: Response) => {
       .status(200)
       .json({ message: "Le module a été correctement supprimé !" });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: "Une erreur est survenue lors de la suppression du module.",
-      });
+    res.status(500).json({
+      error: "Une erreur est survenue lors de la suppression du module.",
+    });
   }
 };
