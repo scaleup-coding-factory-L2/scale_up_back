@@ -40,5 +40,6 @@ app.use(createUserIfNotExistsMiddleware)
 app.use('/api', helloRoutes)
 app.use('/api/subject', subjectRoutes)
 app.use('/api/category', categoryRoutes)
+app.use('/administrative', exportRoutes)
 
 export { app }
